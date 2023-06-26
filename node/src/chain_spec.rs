@@ -37,10 +37,10 @@ pub fn authority_keys_from_seed(s: &str) -> (AuraId, GrandpaId) {
 	(get_from_seed::<AuraId>(s), get_from_seed::<GrandpaId>(s))
 }
 
-// /// Tee Auth mainnet(aka. open testnet) config
-// pub fn mainnet_config() -> Result<ChainSpec, String> {
-//     ChainSpec::from_json_bytes(&include_bytes!("../res/mainnet.json")[..])
-// }
+/// Tee Auth mainnet(aka. open testnet) config
+pub fn mainnet_config() -> Result<ChainSpec, String> {
+    ChainSpec::from_json_bytes(&include_bytes!("../res/mainnet.json")[..])
+}
 
 pub fn development_config() -> Result<ChainSpec, String> {
 	let wasm_binary = WASM_BINARY.ok_or_else(|| "Development wasm not available".to_string())?;

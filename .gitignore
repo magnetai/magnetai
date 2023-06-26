@@ -9,3 +9,7 @@
 # direnv files
 .envrc
 .direnv
+
+docker/cache
+docker/registry
+docker/git
