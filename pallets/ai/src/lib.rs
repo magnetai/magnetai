@@ -89,16 +89,17 @@ pub mod pallet {
 		/// storage and emits an event. This function must be dispatched by a signed extrinsic.
 		#[pallet::call_index(0)]
 		#[pallet::weight(1000000000)]
-		pub fn ask(origin: OriginFor<T>,  prompt: BoundedVec<u8, ConstU32<81920>>) -> DispatchResult {
+		pub fn ask(origin: OriginFor<T>,  prompt: Vec<u8>) -> DispatchResult {
 			// Check that the extrinsic was signed and get the signer.
 			// This function will return an error if the extrinsic is not signed.
 			// https://docs.substrate.io/main-docs/build/origins/
 			let who = ensure_signed(origin)?;
 			// Add the evidence to the on-chain list.
 			let latest_nonce = Self::latest_nonce();
-			<AskRecords<T>>::insert(latest_nonce, prompt.clone());
+			let truncate_prompt = BoundedVec::<u8, ConstU32<81920>>::truncate_from(prompt.clone());
+			<AskRecords<T>>::insert(latest_nonce, truncate_prompt.clone());
 			// Emit an event.
-			Self::deposit_event(Event::Ask { who, latest_nonce, prompt });
+			Self::deposit_event(Event::Ask { who, latest_nonce, truncate_prompt });
 			<LastestNonce<T>>::put(latest_nonce + 1);
 			// Return a successful DispatchResultWithPostInfo
 			Ok(())
@@ -107,11 +108,12 @@ pub mod pallet {
 		/// An example dispatchable that may throw a custom error.
 		#[pallet::call_index(1)]
 		#[pallet::weight(1000000000)]
-		pub fn reply(origin: OriginFor<T>, nonce: u64, answer: BoundedVec<u8, ConstU32<81920>>) -> DispatchResult {
+		pub fn reply(origin: OriginFor<T>, nonce: u64, answer: Vec<u8>) -> DispatchResult {
 			let who = ensure_signed(origin)?;
 			ensure!(Self::relayers(who), Error::<T>::MustBeRelayer);
-			<ReplyRecords<T>>::insert(nonce, answer.clone());
-			Self::deposit_event(Event::Reply {nonce, answer});
+			let truncate_answer = BoundedVec::<u8, ConstU32<81920>>::truncate_from(answer.clone());
+			<ReplyRecords<T>>::insert(nonce, truncate_answer.clone());
+			Self::deposit_event(Event::Reply {nonce, truncate_answer});
 			Ok(())
 		}
 
