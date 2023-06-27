@@ -99,7 +99,7 @@ pub mod pallet {
 			let truncate_prompt = BoundedVec::<u8, ConstU32<81920>>::truncate_from(prompt.clone());
 			<AskRecords<T>>::insert(latest_nonce, truncate_prompt.clone());
 			// Emit an event.
-			Self::deposit_event(Event::Ask { who, latest_nonce, truncate_prompt });
+			Self::deposit_event(Event::Ask { who, latest_nonce, prompt: truncate_prompt });
 			<LastestNonce<T>>::put(latest_nonce + 1);
 			// Return a successful DispatchResultWithPostInfo
 			Ok(())
@@ -113,7 +113,7 @@ pub mod pallet {
 			ensure!(Self::relayers(who), Error::<T>::MustBeRelayer);
 			let truncate_answer = BoundedVec::<u8, ConstU32<81920>>::truncate_from(answer.clone());
 			<ReplyRecords<T>>::insert(nonce, truncate_answer.clone());
-			Self::deposit_event(Event::Reply {nonce, truncate_answer});
+			Self::deposit_event(Event::Reply {nonce, answer: truncate_answer});
 			Ok(())
 		}
 
