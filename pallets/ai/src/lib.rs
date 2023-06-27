@@ -49,7 +49,7 @@ pub mod pallet {
 		_,
 		Twox64Concat,
 		u64,
-		BoundedVec<u8, ConstU32<8192>>,
+		BoundedVec<u8, ConstU32<81920>>,
 		ValueQuery,
 	>;
 
@@ -57,7 +57,7 @@ pub mod pallet {
 	#[pallet::storage]
 	#[pallet::getter(fn reply_records)]
 	pub type ReplyRecords<T: Config> =
-		StorageMap<_, Twox64Concat, u64, BoundedVec<u8, ConstU32<8192>>, ValueQuery>;
+		StorageMap<_, Twox64Concat, u64, BoundedVec<u8, ConstU32<81920>>, ValueQuery>;
 
 	/// Last block authored by collator.
 	#[pallet::storage]
@@ -70,8 +70,8 @@ pub mod pallet {
 	#[pallet::event]
 	#[pallet::generate_deposit(pub(super) fn deposit_event)]
 	pub enum Event<T: Config> {
-		Ask {who: T::AccountId, latest_nonce: u64, prompt: BoundedVec<u8, ConstU32<8192>>},
-		Reply { nonce: u64, answer: BoundedVec<u8, ConstU32<8192>> },
+		Ask {who: T::AccountId, latest_nonce: u64, prompt: BoundedVec<u8, ConstU32<81920>>},
+		Reply { nonce: u64, answer: BoundedVec<u8, ConstU32<81920>> },
 	}
 
 	// Errors inform users that something went wrong.
@@ -89,7 +89,7 @@ pub mod pallet {
 		/// storage and emits an event. This function must be dispatched by a signed extrinsic.
 		#[pallet::call_index(0)]
 		#[pallet::weight(1000000000)]
-		pub fn ask(origin: OriginFor<T>,  prompt: BoundedVec<u8, ConstU32<8192>>) -> DispatchResult {
+		pub fn ask(origin: OriginFor<T>,  prompt: BoundedVec<u8, ConstU32<81920>>) -> DispatchResult {
 			// Check that the extrinsic was signed and get the signer.
 			// This function will return an error if the extrinsic is not signed.
 			// https://docs.substrate.io/main-docs/build/origins/
@@ -107,7 +107,7 @@ pub mod pallet {
 		/// An example dispatchable that may throw a custom error.
 		#[pallet::call_index(1)]
 		#[pallet::weight(1000000000)]
-		pub fn reply(origin: OriginFor<T>, nonce: u64, answer: BoundedVec<u8, ConstU32<8192>>) -> DispatchResult {
+		pub fn reply(origin: OriginFor<T>, nonce: u64, answer: BoundedVec<u8, ConstU32<81920>>) -> DispatchResult {
 			let who = ensure_signed(origin)?;
 			ensure!(Self::relayers(who), Error::<T>::MustBeRelayer);
 			<ReplyRecords<T>>::insert(nonce, answer.clone());
