@@ -123,7 +123,7 @@ pub mod pallet {
 		}
 
 		#[pallet::call_index(2)]
-		#[pallet::weight(1000000)]
+		#[pallet::weight(T::AiWeightInfo::add_relayer())]
 		pub fn add_relayer(origin: OriginFor<T>, v: T::AccountId) -> DispatchResult {
 			T::AiCommitteeOrigin::ensure_origin(origin)?;
 			<Relayers<T>>::insert(&v, true);

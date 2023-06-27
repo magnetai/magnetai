@@ -52,6 +52,7 @@ use core::marker::PhantomData;
 pub trait WeightInfo {
 	fn ask(b: u32, ) -> Weight;
 	fn reply(b: u32, ) -> Weight;
+    fn add_relayer() -> Weight;
 }
 
 /// Weights for frame_system using the Substrate node and recommended hardware.
@@ -77,6 +78,13 @@ impl<T: crate::Config> WeightInfo for SubstrateWeight<T> {
 			// Standard Error: 2
 			.saturating_add(Weight::from_parts(1_455, 0).saturating_mul(b.into()))
 	}
+    fn add_relayer() -> Weight {
+		// Proof Size summary in bytes:
+		//  Measured:  `0`
+		//  Estimated: `0`
+		// Minimum execution time: 8_032_000 picoseconds.
+		Weight::from_parts(8_097_000, 0)
+	}
 }
 
 // For backwards compatibility and tests
@@ -100,5 +108,12 @@ impl WeightInfo for () {
 		Weight::from_parts(8_097_000, 0)
 			// Standard Error: 2
 			.saturating_add(Weight::from_parts(1_455, 0).saturating_mul(b.into()))
+	}
+    fn add_relayer() -> Weight {
+		// Proof Size summary in bytes:
+		//  Measured:  `0`
+		//  Estimated: `0`
+		// Minimum execution time: 8_032_000 picoseconds.
+		Weight::from_parts(8_097_000, 0)
 	}
 }
