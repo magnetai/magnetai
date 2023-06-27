@@ -23,6 +23,7 @@ pub mod pallet {
 	use frame_system::pallet_prelude::*;
 	use frame_system::Config as SysConfig;
 	use sp_std::{prelude::*, vec, convert::TryInto};
+	pub use weights::WeightInfo;
 
 	#[pallet::pallet]
 	pub struct Pallet<T>(_);
