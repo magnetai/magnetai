@@ -272,6 +272,7 @@ impl pallet_sudo::Config for Runtime {
 impl pallet_ai::Config for Runtime {
 	type RuntimeEvent = RuntimeEvent;
 	type AiCommitteeOrigin = EnsureRoot<AccountId>;
+	type AiWeightInfo = ();
 }
 
 // Create the runtime by composing the FRAME pallets that were previously configured.
