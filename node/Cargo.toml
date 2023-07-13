@@ -57,7 +57,7 @@ pallet-transaction-payment-rpc = { version = "4.0.0-dev", git = "https://github.
 # These dependencies are used for runtime benchmarking
 frame-benchmarking = { version = "4.0.0-dev", git = "https://github.com/paritytech/substrate.git", branch = "polkadot-v0.9.42" }
 frame-benchmarking-cli = { version = "4.0.0-dev", git = "https://github.com/paritytech/substrate.git", branch = "polkadot-v0.9.42" }
-hex-literal = {version = "0.3.1"}
+hex-literal = {version = "0.4.1"}
 
 # Local Dependencies
 ai-runtime = { version = "0.1.0", path = "../runtime" }
